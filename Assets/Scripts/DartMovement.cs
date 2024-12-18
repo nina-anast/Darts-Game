@@ -47,16 +47,19 @@ public class DartMovement : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // find possible colliders
-        Collider[] interactables = Physics.OverlapSphere(transform.position, InteractRadius, InteractableLayer);
+        // Collider[] interactables = Physics.OverlapSphere(transform.position, InteractRadius, InteractableLayer);
 
         // if it doesn't find the floor within the radius continue
-        if (interactables.Length == 0) return;
-
+        // if (interactables.Length == 0) return;
+        if ((InteractableLayer & collision.gameObject.layer) == 1) return;
         // else print the message
         Debug.Log("dart hit the floor.");
 
         // set velocity to zero
-        Rigidbody.linearVelocity = Vector3.zero;
-        Rigidbody.angularVelocity = Vector3.zero;  
+        //Rigidbody.linearVelocity = Vector3.zero;
+        //Rigidbody.angularVelocity = Vector3.zero;  
+        Rigidbody.isKinematic = true;
+        Destroy(Rigidbody);
+        Destroy(this);
     }
 }
