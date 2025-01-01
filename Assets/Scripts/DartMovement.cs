@@ -1,22 +1,25 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
+
+[RequireComponent (typeof(Rigidbody), typeof(MeshCollider))]
 public class DartMovement : MonoBehaviour
 {
     public Rigidbody Rigidbody;
-    public float Force, Angle;
+    public float Force;
 
-    public float InteractRadius;
-    public LayerMask InteractableLayer;
-
-    private void Start()
+    public void Init(float force)
     {
+        Force = force;
+
+        float angle = Vector3.SignedAngle(Vector3.forward, transform.forward, transform.right);
+
         Rigidbody = GetComponent<Rigidbody>();
 
-        Quaternion rotation = Quaternion.AngleAxis(Angle, transform.right);
+        Rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.right);
         Rigidbody.AddForce(rotation * (Force * Vector3.forward), ForceMode.VelocityChange);
 
-        Debug.Log("Game Started");
+        GetComponent<MeshCollider>().convex = true;
     }
 
     private void FixedUpdate()
@@ -43,23 +46,9 @@ public class DartMovement : MonoBehaviour
         }
     }
 
-    // if it hits the floor it should stop moving
     private void OnCollisionEnter(Collision collision)
     {
-        // find possible colliders
-        // Collider[] interactables = Physics.OverlapSphere(transform.position, InteractRadius, InteractableLayer);
-
-        // if it doesn't find the floor within the radius continue
-        // if (interactables.Length == 0) return;
-        if ((InteractableLayer & collision.gameObject.layer) == 1) return;
-        // else print the message
-        Debug.Log("dart hit the floor.");
-
-        // set velocity to zero
-        //Rigidbody.linearVelocity = Vector3.zero;
-        //Rigidbody.angularVelocity = Vector3.zero;  
-        Rigidbody.isKinematic = true;
-        Destroy(Rigidbody);
         Destroy(this);
+        Destroy(Rigidbody);
     }
 }
