@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine.SceneManagement;
 
 public class Score : MonoBehaviour
 {
@@ -71,7 +72,7 @@ public class Score : MonoBehaviour
 
     private void GameOver()
     {
-
+        SceneManager.LoadScene(2);
     }
 
     private void PointsFromAngle(float angle)
