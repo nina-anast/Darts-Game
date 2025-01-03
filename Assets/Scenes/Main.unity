@@ -1205,6 +1205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 936746130}
+  - component: {fileID: 936746131}
   m_Layer: 0
   m_Name: Data
   m_TagString: Untagged
@@ -1227,6 +1228,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &936746131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936746128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32dcfef4698736c489549fb88014ec29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Throws: 0
+  Name: ---
+  Time: 
 --- !u!1 &1013584373
 GameObject:
   m_ObjectHideFlags: 0
@@ -2222,6 +2238,10 @@ PrefabInstance:
       propertyPath: ScoreTxt
       value: 
       objectReference: {fileID: 837482317}
+    - target: {fileID: 7881068439755924393, guid: 857c5f2ca94365b42bc9db09789bb6fc, type: 3}
+      propertyPath: SavedData
+      value: 
+      objectReference: {fileID: 936746128}
     - target: {fileID: 7881068439755924393, guid: 857c5f2ca94365b42bc9db09789bb6fc, type: 3}
       propertyPath: ThrowsTxt
       value: 

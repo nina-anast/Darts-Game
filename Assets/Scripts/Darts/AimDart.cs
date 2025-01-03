@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor.Overlays;
+using System;
 
 public class AimDart : MonoBehaviour
 {
@@ -111,6 +113,7 @@ public class AimDart : MonoBehaviour
 
         // add to throw
         _throws += 1;
+        SavedData.Instance.UpdateThrows(_throws);
         ThrowsTxt.text = $"Throws: {_throws:F0}";
     }
 

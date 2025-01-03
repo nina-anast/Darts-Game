@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.SceneManagement;
+using System;
 
 public class Score : MonoBehaviour
 {
@@ -72,6 +73,8 @@ public class Score : MonoBehaviour
 
     private void GameOver()
     {
+        string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        SavedData.Instance.UpdateTime(time);
         SceneManager.LoadScene(2);
     }
 
