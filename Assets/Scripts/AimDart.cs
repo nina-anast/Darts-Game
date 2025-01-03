@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class AimDart : MonoBehaviour
 {
@@ -9,8 +10,11 @@ public class AimDart : MonoBehaviour
     private Camera _cam;
 
     public float RotationSpeed = 10.0f;
+    // singleton value
     [SerializeField]
-    private float _force = 50.0f;
+    private float _appliedForce = 50.0f;
+    // visualize force
+    public Slider Slider;
 
     private float _rotAngle;
     private Vector3 _currentDartPos;
@@ -39,24 +43,32 @@ public class AimDart : MonoBehaviour
         // to apply force
         var scroll = InputSystem.actions.FindAction("Zoom");
         scroll.performed += ApplyForce;
+
+        // to visualize force
+        Slider.value = _appliedForce;
     }
 
     private void ApplyForce(InputAction.CallbackContext ctx)
     {
-        _force += ctx.ReadValue<Vector2>().y;
+        _appliedForce += ctx.ReadValue<Vector2>().y;
+        Slider.value = _appliedForce;
     }
 
     private void Throw(InputAction.CallbackContext obj)
     {
         if (_dartInstace == null)
             return;
+
         // when throw starts add cleaupobject to dart to remove it later
         _dartInstace.AddComponent<CleanupObject>().Init(30.0f);
+
         // add dart movement to have physics
         var movement = _dartInstace.AddComponent<DartMovement>();
+
         // initialize movement
         // _dartInstace.transform.rotation.eulerAngles.x is the current angle 
-        movement.Init(_force);
+        movement.Init(_appliedForce);
+
         // make instance null to be able to make new arrow.
         _dartInstace = null;
 
@@ -70,6 +82,7 @@ public class AimDart : MonoBehaviour
 
         // create dart
         _dartInstace = Instantiate(DartPrefab);
+
         // position it with mouse
         _dartInstace.transform.position = _currentDartPos;
     }
@@ -83,6 +96,7 @@ public class AimDart : MonoBehaviour
     {
         if (_dartInstace == null)
             return;
+
         // if there is an instance rotate it according to user
         _dartInstace.transform.Rotate(Vector3.right, RotationSpeed * _rotAngle * Time.deltaTime);
     }
@@ -98,6 +112,7 @@ public class AimDart : MonoBehaviour
             return;
 
         Vector2 mousePos = ctx.ReadValue<Vector2>();
+
         // create a position in world space (3d space) from mouse position (in screen space)
         // by also using a distance from the camera
         _currentDartPos = _cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, DistanceFromCamera));
