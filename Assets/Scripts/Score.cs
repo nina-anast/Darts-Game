@@ -61,9 +61,9 @@ public class Score : MonoBehaviour
             _score -= (int)(_points * 3);
         }
 
-        if (score < 0)
+        if (_score < 0)
         {
-            GameOver()
+            GameOver();
         }
 
         ScoreTxt.text = $"Score: {_score:F0}";
