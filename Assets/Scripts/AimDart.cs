@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class AimDart : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class AimDart : MonoBehaviour
 
     private float _rotAngle;
     private Vector3 _currentDartPos;
+
+    // show how many throws happened
+    private int _throws = 0;
+    public TextMeshProUGUI ThrowsTxt;
 
     private void Start()
     {
@@ -49,6 +54,9 @@ public class AimDart : MonoBehaviour
         Slider.value = _appliedForce;
         // color change
         ChangeColor(NewColor);
+
+        // show throws
+        ThrowsTxt.text = $"Throws: {_throws:F0}";
     }
 
     private void ChangeColor(Color color)
@@ -100,6 +108,10 @@ public class AimDart : MonoBehaviour
 
         // position it with mouse
         _dartInstace.transform.position = _currentDartPos;
+
+        // add to throw
+        _throws += 1;
+        ThrowsTxt.text = $"Throws: {_throws:F0}";
     }
 
     private void ResetRotation(InputAction.CallbackContext obj)
