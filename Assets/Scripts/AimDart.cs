@@ -10,11 +10,12 @@ public class AimDart : MonoBehaviour
     private Camera _cam;
 
     public float RotationSpeed = 10.0f;
-    // singleton value
-    [SerializeField]
     private float _appliedForce = 50.0f;
+
     // visualize force
     public Slider Slider;
+    public Image Image;
+    public Color NewColor;
 
     private float _rotAngle;
     private Vector3 _currentDartPos;
@@ -46,12 +47,26 @@ public class AimDart : MonoBehaviour
 
         // to visualize force
         Slider.value = _appliedForce;
+        // color change
+        ChangeColor(NewColor);
+    }
+
+    private void ChangeColor(Color color)
+    {
+        // get fill image of the slider and change its color
+        Image.color = color;
     }
 
     private void ApplyForce(InputAction.CallbackContext ctx)
     {
+        // change force
         _appliedForce += ctx.ReadValue<Vector2>().y;
+
+        // change slider position
         Slider.value = _appliedForce;
+
+        // change filler color
+        ChangeColor(NewColor);
     }
 
     private void Throw(InputAction.CallbackContext obj)
