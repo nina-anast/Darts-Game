@@ -1145,7 +1145,7 @@ MonoBehaviour:
   RotationSpeed: 100
   Slider: {fileID: 786909295}
   Image: {fileID: 190747908}
-  NewColor: {r: 0.9924528, g: 0.9924528, b: 0.9924528, a: 1}
+  NewColor: {r: 1, g: 1, b: 1, a: 1}
   ThrowsTxt: {fileID: 1249645765}
 --- !u!64 &911681007
 MeshCollider:
