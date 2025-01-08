@@ -12,4 +12,9 @@ public class Highscore
         Name = name;
         Time = time;
     }
+
+    public override string ToString()
+    {
+        return $"{Name} -> {Throws}";
+    }
 }

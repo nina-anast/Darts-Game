@@ -24,7 +24,22 @@ public class IntroUI : MonoBehaviour
 
     private void ShowHighscores()
     {
+        HighscoreParent.gameObject.SetActive(!HighscoreParent.gameObject.activeSelf);
+        // clear
+        foreach (Transform child in HighscoreParent.GetComponentInChildren<Transform>())
+        {
+            if (child.name == "Label" || child.name == "Vert") continue;
 
+            Destroy(child.gameObject);
+        }
+
+        List<Highscore> data = Utilities.LoadData<List<Highscore>>("Highscores.json");
+        if (data == null || data.Count == 0) return;
+        foreach (Highscore highscore in data)
+        {
+            var entry = Instantiate(HighscoreEntryPrefab, HighscoreParent);
+            entry.GetComponent<TextMeshProUGUI>().text = highscore.ToString();
+        }
     }
 
     private void QuitGame()
