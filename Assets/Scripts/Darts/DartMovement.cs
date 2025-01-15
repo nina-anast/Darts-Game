@@ -1,21 +1,22 @@
 using UnityEngine;
 
-
-[RequireComponent (typeof(Rigidbody), typeof(MeshCollider))]
+[RequireComponent(typeof(Rigidbody), typeof(MeshCollider))]
 public class DartMovement : MonoBehaviour
 {
     public Rigidbody Rigidbody;
     public float Force;
+    private WindManager WindManager;
 
-    public void Init(float force)
+    public void Init(float force, WindManager windManager)
     {
         Force = force;
+        WindManager = windManager;
 
         float angle = Vector3.SignedAngle(Vector3.forward, transform.forward, transform.right);
 
         Rigidbody = GetComponent<Rigidbody>();
-
         Rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.right);
         Rigidbody.AddForce(rotation * (Force * Vector3.forward), ForceMode.VelocityChange);
 
@@ -24,8 +25,25 @@ public class DartMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (WindManager != null)
+        {
+            // Get the wind force
+            Vector3 windForce = WindManager.GetWindForce();
+
+            // Debug log the wind force and dart velocity
+            Debug.Log($"Wind Force: {windForce}");
+            Debug.Log($"Dart Velocity Before Wind: {Rigidbody.linearVelocity}");
+
+            // Apply the wind force
+            Rigidbody.AddForce(windForce, ForceMode.Force);
+
+            Debug.Log($"Dart Velocity After Wind: {Rigidbody.linearVelocity}");
+        }
+
+        // Rotate the dart to face its direction of movement
         RotateTowardsDirection();
     }
+
 
     private void RotateTowardsDirection(bool immediate = false)
     {
@@ -40,7 +58,7 @@ public class DartMovement : MonoBehaviour
             else
             {
                 float angle = Vector3.Angle(transform.forward, Rigidbody.linearVelocity.normalized);
-                float lerpFactor = angle * Time.deltaTime; // Use the angle as the interpolation factor
+                float lerpFactor = angle * Time.deltaTime;
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lerpFactor);
             }
         }
