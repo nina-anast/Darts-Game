@@ -111,6 +111,7 @@ public class AimDart : MonoBehaviour
         _dartInstace.transform.position = _currentDartPos;
 
         _throws += 1;
+        SavedData.Instance.UpdateThrows(_throws);
         ThrowsTxt.text = $"Throws: {_throws:F0}";
     }
 

@@ -9,6 +9,9 @@ public class Score : MonoBehaviour
 {
     private int _score = 301;
     public TextMeshProUGUI ScoreTxt;
+    public TextMeshProUGUI LastShot;
+    public TextMeshProUGUI Multi;
+    private string _multi;
     private float _scale;
     private float _points = 0;
 
@@ -34,8 +37,11 @@ public class Score : MonoBehaviour
 
     private void UpdateScore(float radius, float angle)
     {
+        _multi = "";
+        _points = 0;
         if (radius < 0.3 / _scale)
         {
+            _multi = "Center of Dartboard!";
             _score -= 50;
         }
         else if (radius < 0.4 / _scale)
@@ -49,6 +55,7 @@ public class Score : MonoBehaviour
         }
         else if (radius < 2 / _scale)
         {
+            _multi = "Double Points!";
             PointsFromAngle(angle);
             _score -= (int)(_points * 2);
         }
@@ -59,6 +66,7 @@ public class Score : MonoBehaviour
         }
         else if (radius < 3.3 / _scale)
         {
+            _multi = "Triple Points";
             PointsFromAngle(angle);
             _score -= (int)(_points * 3);
         }
@@ -69,6 +77,8 @@ public class Score : MonoBehaviour
         }
 
         ScoreTxt.text = $"Score: {_score:F0}";
+        LastShot.text = $"Last Shot: {_points:F0}";
+        Multi.text = $"{_multi}";
     }
 
     private void GameOver()
