@@ -24,6 +24,7 @@ public class AimDart : MonoBehaviour
     // Show how many throws happened
     private int _throws = 0;
     public TextMeshProUGUI ThrowsTxt;
+    public TextMeshProUGUI LastShot;
 
     // Reference to WindManager
     public WindManager WindManager;
@@ -96,7 +97,7 @@ public class AimDart : MonoBehaviour
         var movement = _dartInstace.AddComponent<DartMovement>();
 
         // Initialize DartMovement with applied force and wind manager
-        movement.Init(_appliedForce, WindManager);
+        movement.Init(_appliedForce, WindManager, LastShot);
 
         // Make instance null to allow new dart creation
         _dartInstace = null;

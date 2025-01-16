@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(MeshCollider))]
@@ -6,11 +7,14 @@ public class DartMovement : MonoBehaviour
     public Rigidbody Rigidbody;
     public float Force;
     private WindManager WindManager;
+    public TextMeshProUGUI LastShot;
+    
 
-    public void Init(float force, WindManager windManager)
+    public void Init(float force, WindManager windManager, TextMeshProUGUI lastShot)
     {
         Force = force;
         WindManager = windManager;
+        LastShot = lastShot;
 
         float angle = Vector3.SignedAngle(Vector3.forward, transform.forward, transform.right);
 
@@ -66,6 +70,10 @@ public class DartMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.name != "Dartboard")
+        {
+            LastShot.text = "Last Shot: 0";
+        }
         Destroy(this);
         Destroy(Rigidbody);
     }

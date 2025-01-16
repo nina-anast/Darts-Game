@@ -43,10 +43,12 @@ public class Score : MonoBehaviour
         {
             _multi = "Center of Dartboard!";
             _score -= 50;
+            _points = 50;
         }
         else if (radius < 0.4 / _scale)
         {
             _score -= 25;
+            _points = 25;
         }
         else if (radius < 1.9 / _scale)
         {
