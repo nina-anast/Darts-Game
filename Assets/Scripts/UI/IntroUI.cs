@@ -19,9 +19,6 @@ public class IntroUI : MonoBehaviour
 
     private void StartGame()
     {
-        SavedData.Instance.UpdateName("---");
-        SavedData.Instance.UpdateThrows(0);
-        SavedData.Instance.UpdateTime("---");
         SceneManager.LoadScene(1);
     }
 

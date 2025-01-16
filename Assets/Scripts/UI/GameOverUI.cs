@@ -20,9 +20,6 @@ public class GameOverUI : MonoBehaviour
 
     private void Restart()
     {
-        SavedData.Instance.UpdateName("---");
-        SavedData.Instance.UpdateThrows(0);
-        SavedData.Instance.UpdateTime("---");
         SavedData.Instance.UpdateName(Name.text);
         SceneManager.LoadScene(1);
     }
