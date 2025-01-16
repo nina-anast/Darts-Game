@@ -1575,6 +1575,7 @@ MonoBehaviour:
   Image: {fileID: 190747908}
   NewColor: {r: 1, g: 1, b: 1, a: 1}
   ThrowsTxt: {fileID: 1249645765}
+  LastShot: {fileID: 516401179}
   WindManager: {fileID: 0}
 --- !u!64 &911681007
 MeshCollider:

@@ -22,12 +22,7 @@ public class SavedData : GenericSingleton<SavedData>
         Time = time;
     }
 
-    private void OnApplicationQuit()
-    {
-        Save();
-    }
-
-    void Save()
+    public void Save()
     {
         List<Highscore> oldH = Utilities.LoadData<List<Highscore>>("Highscores.json");
         if (oldH == null)
@@ -35,7 +30,6 @@ public class SavedData : GenericSingleton<SavedData>
 
         List<Highscore> newH = oldH;
         newH.Add(new(Throws,Name,Time));
-        // newH = newH.OrderBy(x => x.Throws).ToList();
 
         Utilities.SaveData(newH, "Highscores.json");
     }

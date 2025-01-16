@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using TMPro;
+using System.Linq;
 
 public class IntroUI : MonoBehaviour
 {
@@ -19,9 +20,6 @@ public class IntroUI : MonoBehaviour
 
     private void StartGame()
     {
-        SavedData.Instance.UpdateName("---");
-        SavedData.Instance.UpdateThrows(0);
-        SavedData.Instance.UpdateTime("---");
         SceneManager.LoadScene(1);
     }
 
@@ -38,6 +36,8 @@ public class IntroUI : MonoBehaviour
 
         List<Highscore> data = Utilities.LoadData<List<Highscore>>("Highscores.json");
         if (data == null || data.Count == 0) return;
+        data = data.OrderBy(highscore=>highscore.Throws).ToList();
+
         foreach (Highscore highscore in data)
         {
             var entry = Instantiate(HighscoreEntryPrefab, HighscoreParent);
