@@ -143,4 +143,28 @@ public class AimDart : MonoBehaviour
         _currentDartPos = _cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, DistanceFromCamera));
         _dartInstace.transform.position = _currentDartPos;
     }
+
+    private void OnDestroy()
+    {
+        // Initial position of dart
+        var mousePosAction = InputSystem.actions.FindAction("Point");
+        mousePosAction.performed -= Aim;
+
+        // Rotation of dart
+        var move = InputSystem.actions.FindAction("Move");
+        move.performed -= SetStartRotation;
+        move.canceled -= ResetRotation;
+
+        // To start aiming
+        var space = InputSystem.actions.FindAction("Jump");
+        space.performed -= InitThrow;
+
+        // To start throwing
+        var click = InputSystem.actions.FindAction("Click");
+        click.performed -= Throw;
+
+        // To apply force
+        var scroll = InputSystem.actions.FindAction("Zoom");
+        scroll.performed -= ApplyForce;
+    }
 }
