@@ -21,7 +21,7 @@ public class Score : MonoBehaviour
         float radius = Vector3.Distance(transform.position, contactPoint);
 
         Vector3 zeroAngleAxis = transform.right;
-        float angle = Vector3.SignedAngle(zeroAngleAxis, direction, transform.up);
+        float angle = - Vector3.SignedAngle(zeroAngleAxis, direction, transform.up);
 
         UpdateScore(radius,angle);
         Debug.Log($"radius: {radius}, angle: {angle}");
@@ -31,45 +31,45 @@ public class Score : MonoBehaviour
     {
         ScoreTxt.text = $"Score: {_score:F0}";
         Vector3 scale = transform.localScale;
-        _scale = scale.x / 10;
+        _scale = scale.x * 1.9f;
     }
 
     private void UpdateScore(float radius, float angle)
     {
         _multi = "";
         _points = 0;
-        if (radius < 0.3 / _scale)
+        if (radius < 0.01616 * _scale)
         {
             _multi = "Center of Dartboard!";
             _score -= 50;
             _points = 50;
         }
-        else if (radius < 0.4 / _scale)
+        else if (radius < 0.041 * _scale)
         {
             _score -= 25;
             _points = 25;
         }
-        else if (radius < 1.9 / _scale)
+        else if (radius < 0.246 * _scale)
         {
             PointsFromAngle(angle);
             _score -= (int)_points;
         }
-        else if (radius < 2 / _scale)
+        else if (radius < 0.264 * _scale)
         {
-            _multi = "Double Points!";
-            PointsFromAngle(angle);
-            _score -= (int)(_points * 2);
-        }
-        else if (radius < 3.2 / _scale)
-        {
-            PointsFromAngle(angle);
-            _score -= (int)_points;
-        }
-        else if (radius < 3.3 / _scale)
-        {
-            _multi = "Triple Points";
+            _multi = "Triple Points!";
             PointsFromAngle(angle);
             _score -= (int)(_points * 3);
+        }
+        else if (radius < 0.396 * _scale)
+        {
+            PointsFromAngle(angle);
+            _score -= (int)_points;
+        }
+        else if (radius < 0.42 * _scale)
+        {
+            _multi = "Double Points";
+            PointsFromAngle(angle);
+            _score -= (int)(_points * 2);
         }
 
         if (_score < 0)

@@ -8,13 +8,14 @@ public class DartMovement : MonoBehaviour
     public float Force;
     private WindManager WindManager;
     public TextMeshProUGUI LastShot;
-    
+    public TextMeshProUGUI Multi;
 
-    public void Init(float force, WindManager windManager, TextMeshProUGUI lastShot)
+    public void Init(float force, WindManager windManager, TextMeshProUGUI lastShot,TextMeshProUGUI multi)
     {
         Force = force;
         WindManager = windManager;
         LastShot = lastShot;
+        Multi = multi;
 
         float angle = Vector3.SignedAngle(Vector3.forward, transform.forward, transform.right);
 
@@ -35,13 +36,13 @@ public class DartMovement : MonoBehaviour
             Vector3 windForce = WindManager.GetWindForce();
 
             // Debug log the wind force and dart velocity
-            Debug.Log($"Wind Force: {windForce}");
-            Debug.Log($"Dart Velocity Before Wind: {Rigidbody.linearVelocity}");
+            //Debug.Log($"Wind Force: {windForce}");
+            //Debug.Log($"Dart Velocity Before Wind: {Rigidbody.linearVelocity}");
 
             // Apply the wind force
             Rigidbody.AddForce(windForce, ForceMode.Force);
 
-            Debug.Log($"Dart Velocity After Wind: {Rigidbody.linearVelocity}");
+            //Debug.Log($"Dart Velocity After Wind: {Rigidbody.linearVelocity}");
         }
 
         // Rotate the dart to face its direction of movement
@@ -73,6 +74,7 @@ public class DartMovement : MonoBehaviour
         if (collision.gameObject.name != "Dartboard")
         {
             LastShot.text = "Last Shot: 0";
+            Multi.text = "";
         }
         Destroy(this);
         Destroy(Rigidbody);
