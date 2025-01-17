@@ -10,6 +10,7 @@ public class IntroUI : MonoBehaviour
     public Button StartButton, HighscoresButton, QuitButton;
     public GameObject HighscoreEntryPrefab;
     public Transform HighscoreParent;
+    public GameObject HighscoreCanvas;
 
     private void Start()
     {
@@ -25,7 +26,7 @@ public class IntroUI : MonoBehaviour
 
     private void ShowHighscores()
     {
-        HighscoreParent.gameObject.SetActive(!HighscoreParent.gameObject.activeSelf);
+        HighscoreCanvas.gameObject.SetActive(!HighscoreCanvas.gameObject.activeSelf);
         // clear
         foreach (Transform child in HighscoreParent.GetComponentInChildren<Transform>())
         {
