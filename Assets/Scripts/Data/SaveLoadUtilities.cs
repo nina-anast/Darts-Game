@@ -25,7 +25,7 @@ public static partial class Utilities
 
     public static void SaveData<T>(T data, string fileName)
     {
-`        if (string.IsNullOrWhiteSpace(fileName))
+        if (string.IsNullOrWhiteSpace(fileName))
             throw new System.Exception(string.Format("Cannot save file without a name ({0})", fileName));
         if (data == null)
             throw new System.Exception(string.Format("Data was null when trying to save file ({0})", nameof(data)));
