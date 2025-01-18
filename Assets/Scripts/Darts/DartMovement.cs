@@ -9,8 +9,9 @@ public class DartMovement : MonoBehaviour
     private WindManager WindManager;
     public TextMeshProUGUI LastShot;
     public TextMeshProUGUI Multi;
+    private AudioSource _audioSource;
 
-    public void Init(float force, WindManager windManager, TextMeshProUGUI lastShot,TextMeshProUGUI multi)
+    public void Init(float force, WindManager windManager, TextMeshProUGUI lastShot, TextMeshProUGUI multi)
     {
         Force = force;
         WindManager = windManager;
@@ -26,6 +27,7 @@ public class DartMovement : MonoBehaviour
         Rigidbody.AddForce(rotation * (Force * Vector3.forward), ForceMode.VelocityChange);
 
         GetComponent<MeshCollider>().convex = true;
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -71,6 +73,10 @@ public class DartMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (_audioSource != null && !_audioSource.isPlaying)
+        {
+            _audioSource.Play();
+        }
         if (collision.gameObject.name != "Dartboard")
         {
             LastShot.text = "Last Shot: 0";
