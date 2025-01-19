@@ -34,20 +34,14 @@ public class DartMovement : MonoBehaviour
     {
         if (WindManager != null)
         {
-            // Get the wind force
+            // Get the wind force from the WindManager
             Vector3 windForce = WindManager.GetWindForce();
 
-            // Debug log the wind force and dart velocity
-            //Debug.Log($"Wind Force: {windForce}");
-            //Debug.Log($"Dart Velocity Before Wind: {Rigidbody.linearVelocity}");
-
-            // Apply the wind force
+            // Apply the wind force to the dart
             Rigidbody.AddForce(windForce, ForceMode.Force);
-
-            //Debug.Log($"Dart Velocity After Wind: {Rigidbody.linearVelocity}");
         }
 
-        // Rotate the dart to face its direction of movement
+        // Rotate the dart to align with its velocity direction
         RotateTowardsDirection();
     }
 
