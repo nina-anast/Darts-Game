@@ -3,31 +3,40 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
 
+// this script is running in an empty game object.
+// it's main purpose is to control the darts with given inputs from player.
+// inputs create, make initial conditions of dart and when thrown -> dart movement is activated.
 public class AimDart : MonoBehaviour
 {
+    // initial z position of dart from player
     public float DistanceFromCamera = 10.0f;
     public GameObject DartPrefab;
     private GameObject _dartInstace;
     private Camera _cam;
 
+    // for arrows inputs 
     public float RotationSpeed = 10.0f;
+    // can be changed from mouse scroll
     private float _appliedForce = 50.0f;
 
     // Visualize force
     public Slider Slider;
     public Image Image;
+    // isn't used
     public Color NewColor;
 
+    // to get initial angle and position of dart
     private float _rotAngle;
     private Vector3 _currentDartPos;
 
     // Show how many throws happened
     private int _throws = 0;
+    // update texts in ui to let player know of useful data
     public TextMeshProUGUI ThrowsTxt;
     public TextMeshProUGUI LastShot;
     public TextMeshProUGUI Multi;
 
-    // Reference to WindManager
+    // Reference to WindManager (find script)
     public WindManager WindManager;
 
     private void Start()
@@ -74,6 +83,7 @@ public class AimDart : MonoBehaviour
         ThrowsTxt.text = $"Throws: {_throws:F0}";
     }
 
+    // not used
     private void ChangeColor(Color color)
     {
         Image.color = color;
@@ -81,6 +91,8 @@ public class AimDart : MonoBehaviour
 
     private void ApplyForce(InputAction.CallbackContext ctx)
     {
+        // reads input value and assigns it in force and in slider. 
+        // should change color too but doesn't work correctly.
         _appliedForce += ctx.ReadValue<Vector2>().y;
         Slider.value = _appliedForce;
         ChangeColor(NewColor);
@@ -88,6 +100,7 @@ public class AimDart : MonoBehaviour
 
     private void Throw(InputAction.CallbackContext obj)
     {
+        // if no dart exists, skip
         if (_dartInstace == null)
             return;
 
@@ -106,17 +119,23 @@ public class AimDart : MonoBehaviour
 
     private void InitThrow(InputAction.CallbackContext obj)
     {
+        // if dart exists, skip
         if (_dartInstace != null)
             return;
 
+        // if it doesn't exist make a new instance
         _dartInstace = Instantiate(DartPrefab);
+        // make it's position same as mouse (look at Aim)
         _dartInstace.transform.position = _currentDartPos;
 
+        // add 1 throw in players tries
         _throws += 1;
+        // update singleton and text
         SavedData.Instance.UpdateThrows(_throws);
         ThrowsTxt.text = $"Throws: {_throws:F0}";
     }
 
+    // to put dart back to 0 angle
     private void ResetRotation(InputAction.CallbackContext obj)
     {
         _rotAngle = 0;
@@ -124,27 +143,34 @@ public class AimDart : MonoBehaviour
 
     private void Update()
     {
+        // skip if no dart
         if (_dartInstace == null)
             return;
 
+        // rotate dart with const speed (see angle in SetStartRotation)
         _dartInstace.transform.Rotate(Vector3.right, RotationSpeed * _rotAngle * Time.deltaTime);
     }
 
     private void SetStartRotation(InputAction.CallbackContext ctx)
     {
+        // read angle and assign it
         _rotAngle -= ctx.ReadValue<Vector2>().y;
     }
 
     private void Aim(InputAction.CallbackContext ctx)
     {
+        // if there is no dart, skip
         if (_dartInstace == null)
             return;
 
+        // read mouse position
         Vector2 mousePos = ctx.ReadValue<Vector2>();
+        // assign dart position as mouse position and distance from camera
         _currentDartPos = _cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, DistanceFromCamera));
         _dartInstace.transform.position = _currentDartPos;
     }
 
+    // remove input actions when changing scene
     private void OnDestroy()
     {
         // Initial position of dart

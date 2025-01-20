@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+// changes ui for wind 
 public class WindIndicator : MonoBehaviour
 {
     public RectTransform arrow; // Reference to the wind arrow RectTransform

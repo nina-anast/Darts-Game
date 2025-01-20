@@ -4,8 +4,12 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System;
 
+// runs in the dartboard game object.
+// its main purpose is to calculate the score and throws to end the game.
+// it also updates the ui to the player knows his progress.
 public class Score : MonoBehaviour
 {
+    // game starts with 301 points (couls also be 501)
     private int _score = 301;
     public TextMeshProUGUI ScoreTxt;
     public TextMeshProUGUI LastShot;
@@ -14,8 +18,10 @@ public class Score : MonoBehaviour
     private float _scale;
     private float _points = 0;
 
+    // when dart hits dartboard
     private void OnCollisionEnter(Collision collision)
     {
+        // from contact point get radius and angle
         Vector3 contactPoint = collision.GetContact(0).point;
         Vector3 direction = contactPoint - transform.position;
         float radius = Vector3.Distance(transform.position, contactPoint);
@@ -30,10 +36,13 @@ public class Score : MonoBehaviour
     private void Start()
     {
         ScoreTxt.text = $"Score: {_score:F0}";
+        // when changing the dartoboard's scale, points will not be affected
         Vector3 scale = transform.localScale;
         _scale = scale.x * 1.9f;
     }
 
+    // gets score according to angle and radius.
+    // also updates ui.
     private void UpdateScore(float radius, float angle)
     {
         _multi = "";
@@ -82,6 +91,8 @@ public class Score : MonoBehaviour
         Multi.text = $"{_multi}";
     }
 
+    // when points<0, game is over.
+    // update singleton and change scene to gameover scene.
     private void GameOver()
     {
         string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -89,6 +100,7 @@ public class Score : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
+    // get points according to angle (called in UpdateScore)
     private void PointsFromAngle(float angle)
     {
         if (angle < -180 + 9)

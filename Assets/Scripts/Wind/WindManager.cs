@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+// calculates randomized wind amplitude and direction
+// displays it in ui element
 public class WindManager : MonoBehaviour
 {
     [Header("Wind Settings")]

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using System.Linq;
 
+// script for ui in intro screen.
 public class IntroUI : MonoBehaviour
 {
     public Button StartButton, HighscoresButton, QuitButton;
@@ -19,6 +20,7 @@ public class IntroUI : MonoBehaviour
         QuitButton.onClick.AddListener(QuitGame);
     }
 
+    // loads main game scene
     private void StartGame()
     {
         SceneManager.LoadScene(1);
@@ -26,6 +28,7 @@ public class IntroUI : MonoBehaviour
 
     private void ShowHighscores()
     {
+        // activates canvas for Highscores
         HighscoreCanvas.gameObject.SetActive(!HighscoreCanvas.gameObject.activeSelf);
         // clear
         foreach (Transform child in HighscoreParent.GetComponentInChildren<Transform>())
@@ -34,11 +37,14 @@ public class IntroUI : MonoBehaviour
 
             Destroy(child.gameObject);
         }
-
+        // get list of highscores from .json
         List<Highscore> data = Utilities.LoadData<List<Highscore>>("Highscores.json");
         if (data == null || data.Count == 0) return;
+        // if data exist, order data with throws (min to max)
         data = data.OrderBy(highscore=>highscore.Throws).ToList();
 
+        // for each highscore make a new entry
+        // text is defined in Highscore.cs
         foreach (Highscore highscore in data)
         {
             var entry = Instantiate(HighscoreEntryPrefab, HighscoreParent);
@@ -46,6 +52,7 @@ public class IntroUI : MonoBehaviour
         }
     }
 
+    // close game
     private void QuitGame()
     {
 #if UNITY_EDITOR

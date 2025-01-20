@@ -1,3 +1,5 @@
+// class to determine the format the highscore elements should have.
+// also determines the format the elements should have in when displayed.
 public class Highscore 
 {
     public float Throws;

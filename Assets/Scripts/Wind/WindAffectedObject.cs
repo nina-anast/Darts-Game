@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// gets wind details and rb of dart.
+// apllies wind as a force to the rb.
 public class WindAffectedObject : MonoBehaviour
 {
     public Rigidbody rb; // Reference to the object's Rigidbody
